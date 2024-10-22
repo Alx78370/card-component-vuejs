@@ -1,16 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 const props = defineProps({
   username: { type: String, required: true }
 })
 
 const user = ref()
 
-fetch(`https://api.github.com/users/${props.username}`).then(async (res)=>{
+const fetchUser = async () => {
+  const res = await fetch(`https://api.github.com/users/${props.username}`)
   const data = await res.json()
   user.value = data
-})
+}
 
+onMounted(() => {
+  fetchUser()
+})
 </script>
 
 <template>
